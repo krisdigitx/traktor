@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: order-alert-api
-  namespace: ecommerce-alerts
+  namespace: traktor
 spec:
   replicas: 1
   selector:
