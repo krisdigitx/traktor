@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-alert-api
+  namespace: ecommerce-alerts
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: order-alert-api
+  template:
+    metadata:
+      labels:
+        app: order-alert-api
+    spec:
+      containers:
+        - name: api
+          image: docker.io/krisdigitx/ecommerce-order-alerts:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - secretRef:
+                name: order-alert-secrets
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 30
+            periodSeconds: 20

@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-alert-worker
+  namespace: ecommerce-alerts
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: order-alert-worker
+  template:
+    metadata:
+      labels:
+        app: order-alert-worker
+    spec:
+      containers:
+        - name: worker
+          image: docker.io/krisdigitx/ecommerce-order-alerts:latest
+          imagePullPolicy: Always
+          command: ["python", "-m", "app.workers.poll_orders"]
+          envFrom:
+            - secretRef:
+                name: order-alert-secrets

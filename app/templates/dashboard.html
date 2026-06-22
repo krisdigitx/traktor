@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ecommerce Order Alerts</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <main class="container">
+    <header>
+      <h1>Ecommerce Order Alerts</h1>
+      <p>TikTok UK + eBay order monitoring dashboard</p>
+    </header>
+
+    <section class="cards">
+      <div class="card"><span>Orders Today</span><strong>{{ count_today }}</strong></div>
+      <div class="card"><span>Pending Dispatch</span><strong>{{ pending_dispatch }}</strong></div>
+      <div class="card"><span>Failed Notifications</span><strong>{{ failed_notifications }}</strong></div>
+      <div class="card"><span>Today Value</span><strong>£{{ '%.2f'|format(total_today) }}</strong></div>
+      <div class="card"><span>7 Day Value</span><strong>£{{ '%.2f'|format(total_week) }}</strong></div>
+    </section>
+
+    <section class="panel">
+      <h2>Latest Orders</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Created</th>
+            <th>Platform</th>
+            <th>Shop</th>
+            <th>Order ID</th>
+            <th>Item</th>
+            <th>Qty</th>
+            <th>Total</th>
+            <th>Status</th>
+            <th>Notify</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for order in orders %}
+          <tr>
+            <td>{{ order.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+            <td>{{ order.platform }}</td>
+            <td>{{ order.shop_name or '-' }}</td>
+            <td>{{ order.external_order_id }}</td>
+            <td>{{ order.item_title or '-' }}</td>
+            <td>{{ order.quantity }}</td>
+            <td>{{ order.currency }} {{ '%.2f'|format(order.total_amount) }}</td>
+            <td>{{ order.status }}</td>
+            <td>{{ order.notification_status }}</td>
+          </tr>
+          {% else %}
+          <tr><td colspan="9">No orders yet.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+  </main>
+</body>
+</html>
