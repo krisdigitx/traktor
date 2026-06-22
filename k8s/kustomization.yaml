@@ -3,10 +3,10 @@ kind: Kustomization
 
 resources:
   - namespace.yaml
-  - deployment-api.yaml
-  - deployment-worker.yaml
+  - secret-example.yaml
   - postgres.yaml
   - redis.yaml
-  - ingress.yaml
+  - deployment-api.yaml
+  - deployment-worker.yaml
   - service.yaml
-  - secret-example.yaml
+  - ingress.yaml
